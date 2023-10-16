@@ -1,0 +1,23 @@
+name: Math Utility Repo applying CI
+
+on:
+  push:                            # Khi ai sửa code
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:                              # thì sẽ chạy cái này
+  build:                           # build app
+
+    runs-on: ubuntu-latest         # 1. mượn server, cài OS ubuntu
+
+    steps:
+    - uses: actions/checkout@v3    # 2. down code về server
+    - name: Set up JDK 20          # 3. cài jdk về server
+      uses: actions/setup-java@v3
+      with:
+        java-version: '20'
+        distribution: 'temurin'
+        cache: maven
+    - name: Build with Maven       # 4. mượn maven, tạo .jar, war
+      run: mvn -B package --file pom.xml
